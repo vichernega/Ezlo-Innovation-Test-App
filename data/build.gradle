@@ -51,6 +51,12 @@ dependencies {
 
     // Gson
     implementation "com.google.code.gson:gson:$gsonVersion"
+
+    // Room
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
 }
 
 // Allow references to generated code (for hilt)

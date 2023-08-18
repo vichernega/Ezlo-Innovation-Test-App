@@ -1,26 +1,31 @@
 package com.example.data.repositories
 
-import com.example.data.domain.model.Devices
-import com.example.data.mapper.toDevices
+import com.example.data.core.BaseRepository
+import com.example.data.db.DevicesDao
+import com.example.data.domain.model.Device
+import com.example.data.mapper.mapDevicesList
 import com.example.data.network.DevicesService
 import com.example.data.state.RequestState
-import com.example.data.util.log
-import java.io.IOException
 import javax.inject.Inject
 
-class DevicesRepository @Inject constructor(private val devicesService: DevicesService) {
+class DevicesRepository @Inject constructor(
+  private val devicesService: DevicesService,
+  private val devicesDao: DevicesDao
+) : BaseRepository() {
 
-  suspend fun getDevices(): RequestState<Devices> {
-    return try {
-      val result = devicesService.getDevices().toDevices()
-      RequestState.Success(result)
-    } catch (throwable: Throwable) {
-      log("DevicesRepository getDevices() throwable.cause: ${throwable.cause}")
-      log("DevicesRepository getDevices() throwable.message: ${throwable.message}")
-      when (throwable) {
-        is IOException -> RequestState.NetworkError
-        else -> RequestState.Error(throwable)
-      }
+  suspend fun retrieveCachedDevices() = handleRequest { devicesDao.getDevicesList() }
+
+  suspend fun resetData(): RequestState<List<Device>> {
+    val requestResult = getRemoteDevices()
+    if (requestResult is RequestState.Success) {
+      devicesDao.insertDevicesList(requestResult.response)
+    }
+    return retrieveCachedDevices()
+  }
+
+  private suspend fun getRemoteDevices(): RequestState<List<Device>> {
+    return handleRequest {
+      devicesService.getDevices().mapDevicesList()
     }
   }
 }
