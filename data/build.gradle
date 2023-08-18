@@ -1,22 +1,20 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.dagger.hilt.android'
     id 'kotlin-kapt'
 }
 
 android {
-    namespace 'com.example.ezlotestapp'
+    namespace 'com.example.data'
     compileSdk project.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.example.ezlotestapp"
         minSdk project.minSdkVersion
         targetSdk project.compileSdkVersion
-        versionCode project.appVersionCode
-        versionName project.appVersionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -32,9 +30,6 @@ android {
     kotlinOptions {
         jvmTarget = project.jvmTargetVersion
     }
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
@@ -42,24 +37,20 @@ dependencies {
     implementation "androidx.core:core-ktx:$androidxCoreVersion"
     implementation "androidx.appcompat:appcompat:$androidxAppCompat"
     implementation "com.google.android.material:material:$materialVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$testExtJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$testEspressoVersion"
 
-    implementation project(":data")
-
-    // ViewModel KTX (viewModelScope)
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleViewmodelKTXVersion"
-
-    // Navigation KTX
-    implementation "androidx.navigation:navigation-runtime-ktx:$navigationKTXVersion"
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigationKTXVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigationKTXVersion"
+    // Networking
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
     // DI
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+
+    // Gson
+    implementation "com.google.code.gson:gson:$gsonVersion"
 }
 
 // Allow references to generated code (for hilt)
