@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Ezlo Test App</string>
+    <string name="sn_format">SN: %s</string>
+    <string name="mac_address_format">MAC Address: %s</string>
+    <string name="firmware_format">Firmware: %s</string>
+    <string name="model_format">Model: %s</string>
+    <string name="change_title">Change\ntitle</string>
+    <string name="reset">Reset</string>
+    <string name="delete_messsage">Delete %s device?</string>
+    <string name="dialog_positive_button_title">OK</string>
+    <string name="dialog_negative_button_title">Cancel</string>
+    <string name="profile_name">Viktoriia Cherneha</string>
 </resources>

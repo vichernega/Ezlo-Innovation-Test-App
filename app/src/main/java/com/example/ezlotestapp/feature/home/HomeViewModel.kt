@@ -24,4 +24,10 @@ class HomeViewModel @Inject constructor(private val repository: DevicesRepositor
     launchRequest(_devicesLiveData) { repository.resetData() }
   }
 
+  fun deleteDevice(device: Device) {
+    launchRequest(_devicesLiveData) {
+      repository.deleteDevice(device)
+      repository.retrieveCachedDevices()
+    }
+  }
 }

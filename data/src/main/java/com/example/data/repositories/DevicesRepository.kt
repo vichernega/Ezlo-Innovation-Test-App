@@ -18,14 +18,21 @@ class DevicesRepository @Inject constructor(
   suspend fun resetData(): RequestState<List<Device>> {
     val requestResult = getRemoteDevices()
     if (requestResult is RequestState.Success) {
+      devicesDao.clearTable()
       devicesDao.insertDevicesList(requestResult.response)
     }
     return retrieveCachedDevices()
   }
 
+  suspend fun updateDevice(device: Device) = handleRequest { devicesDao.insertDevice(device) }
+
   private suspend fun getRemoteDevices(): RequestState<List<Device>> {
     return handleRequest {
       devicesService.getDevices().mapDevicesList()
     }
+  }
+
+  suspend fun deleteDevice(device: Device) {
+    devicesDao.removeDevice(device)
   }
 }

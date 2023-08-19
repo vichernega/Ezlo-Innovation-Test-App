@@ -8,6 +8,22 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.ezlotestapp.feature.home.HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_homeDetailsFragment"
+            app:destination="@id/homeDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeDetailsFragment"
+        android:name="com.example.ezlotestapp.feature.details.HomeDetailsFragment"
+        android:label="HomeDetailsFragment">
+        <argument
+            android:name="isInEditMode"
+            app:argType="boolean" />
+        <argument
+            android:name="device"
+            app:argType="com.example.data.domain.model.Device" />
+    </fragment>
 
 </navigation>
